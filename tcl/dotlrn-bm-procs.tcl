@@ -64,7 +64,7 @@ namespace eval dotlrn_bm {
                 -directory_p t \
             ]
 
-            dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key]
+            dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key] -package_key [my_package_key]
 
             dotlrn_applet::mount \
                 -package_key [my_package_key] \
@@ -98,9 +98,9 @@ namespace eval dotlrn_bm {
         remove the bulk-mail applet from a dotlrn community
     } {
         set portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
-        set package_id [dotlrn::get_community_applet_package_id \
+        set package_id [dotlrn_community::get_applet_package_id \
             -community_id $community_id \
-            -package_key [package_key] \
+            -applet_key [applet_key] \
         ]
 
         bm_portlet::remove_self_from_page -portal_id $portal_id -package_id $package_id
@@ -182,7 +182,7 @@ namespace eval dotlrn_bm {
     } {
         returns the URL for the dotlrn-bm package
     } {
-        return [site_node::get_url_from_object_id -object_id [get_package_id]]
+        return [lindex [site_node::get_url_from_object_id -object_id [get_package_id]] 0]
     }
 
 }
