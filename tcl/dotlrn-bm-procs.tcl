@@ -58,18 +58,24 @@ namespace eval dotlrn_bm {
         used for one-time init - must be repeatable!
     } {
         if {![dotlrn::is_package_mounted -package_key [package_key]]} {
-            set package_id [dotlrn::mount_package \
-                -package_key [package_key] \
-                -url [package_key] \
-                -directory_p t \
-            ]
 
-            dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key] -package_key [my_package_key]
+            db_transaction {
+                set package_id [dotlrn::mount_package \
+                    -package_key [package_key] \
+                    -url [package_key] \
+                    -directory_p t \
+                ]
 
-            dotlrn_applet::mount \
-                -package_key [my_package_key] \
-                -url bm \
-                -pretty_name [get_pretty_name]
+                dotlrn_applet::add_applet_to_dotlrn \
+                    -applet_key [applet_key] \
+                    -package_key [my_package_key]
+
+                dotlrn_applet::mount \
+                    -package_key [my_package_key] \
+                    -url bm \
+                    -pretty_name [get_pretty_name]
+            }
+
         }
     }
 
