@@ -128,10 +128,15 @@ select acs_sc_impl_alias__new(
         'TCL'
 );
 
+select acs_sc_impl_alias__new(
+        'dotlrn_applet',     
+        'dotlrn_bm',
+        'ChangeEventHandler',
+        'dotlrn_bm::change_event_handler',
+        'TCL'
+);
+
 select acs_sc_binding__new(
         'dotlrn_applet',				--contract name			     	  
         'dotlrn_bm'						--impl name					   
 );
-
-
-
