@@ -14,8 +14,6 @@ ad_page_contract {
 
 set package_id [ad_conn package_id]
 
-permission::require_permission -object_id $package_id -privilege admin
-
 set title [bulk_mail::pretty_name]
 set context_bar {All}
 

@@ -30,7 +30,7 @@ namespace eval dotlrn_bm {
     } {
         get the applet_key
     } {
-        return "dotlrn_bm"
+        return dotlrn_bm
     }
 
     ad_proc -public my_package_key {
@@ -61,13 +61,14 @@ namespace eval dotlrn_bm {
             set package_id [dotlrn::mount_package \
                 -package_key [package_key] \
                 -url [package_key] \
-                -directory_p "t"]
+                -directory_p t \
+            ]
 
             dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key]
 
             dotlrn_applet::mount \
                 -package_key [my_package_key] \
-                -url "bm" \
+                -url bm \
                 -pretty_name [get_pretty_name]
         }
     }
@@ -76,7 +77,6 @@ namespace eval dotlrn_bm {
     } {
         remove the applet from dotlrn
     } {
-        # noop
     }
 
     ad_proc -public add_applet_to_community {
@@ -86,6 +86,7 @@ namespace eval dotlrn_bm {
     } {
         set portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
         set package_id [dotlrn::instantiate_and_mount $community_id [package_key]]
+
         bm_portlet::add_self_to_page -portal_id $portal_id -package_id $package_id
 
         return $package_id
@@ -99,7 +100,7 @@ namespace eval dotlrn_bm {
         set portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
         set package_id [dotlrn::get_community_applet_package_id \
             -community_id $community_id \
-            -package_key [package_key]
+            -package_key [package_key] \
         ]
 
         bm_portlet::remove_self_from_page -portal_id $portal_id -package_id $package_id
@@ -163,13 +164,8 @@ namespace eval dotlrn_bm {
     } {
         clone this applet's content from the old community to the new one
     } {
-        ns_log notice "Cloning [applet_key]"
         add_applet_to_community $new_community_id
     }
-
-    #
-    # misc procs
-    #
 
     ad_proc -public get_package_id {
     } {
