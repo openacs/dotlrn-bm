@@ -33,6 +33,12 @@ namespace eval dotlrn_bm {
         return "dotlrn_bm"
     }
 
+    ad_proc -public my_package_key {
+    } {
+    } {
+        return "dotlrn-bm"
+    }
+
     ad_proc -public package_key {
     } {
         get the package_key this applet deals with
@@ -40,36 +46,11 @@ namespace eval dotlrn_bm {
         return "bulk-mail"
     }
 
-    ad_proc portal_element_key {
-    } {
-        return the portal element key
-    } {
-        return "bm-portlet"
-    }
-
     ad_proc -public get_pretty_name {
     } {
         returns the pretty name
     } {
-        return "dotLRN Bulk Mail Applet"
-    }
-
-    ad_proc -public get_user_default_page {} {
-        return the user default page to add the portlet to
-    } {
-        return ""
-    }
-
-    ad_proc -public get_community_default_page {} {
-        return the user default page to add the portlet to
-    } {
-        return ""
-    }
-
-    ad_proc -public get_subcomm_default_page {} {
-        return the user default page to add the portlet to
-    } {
-        return ""
+        return "Bulk Mail"
     }
 
     ad_proc -public add_applet {
@@ -84,7 +65,10 @@ namespace eval dotlrn_bm {
 
             dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key]
 
-            dotlrn_applet::mount -package_key "dotlrn-bm" -url "bm" -pretty_name "Bulk Mail"
+            dotlrn_applet::mount \
+                -package_key [my_package_key] \
+                -url "bm" \
+                -pretty_name [get_pretty_name]
         }
     }
 
@@ -92,6 +76,7 @@ namespace eval dotlrn_bm {
     } {
         remove the applet from dotlrn
     } {
+        # noop
     }
 
     ad_proc -public add_applet_to_community {
@@ -99,13 +84,8 @@ namespace eval dotlrn_bm {
     } {
         Add the bulk-mail applet to a dotlrn community
     } {
-        if {[dotlrn_community::dummy_comm_p -community_id $community_id]} {
-            return
-        }
-
         set portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
         set package_id [dotlrn::instantiate_and_mount $community_id [package_key]]
-
         bm_portlet::add_self_to_page -portal_id $portal_id -package_id $package_id
 
         return $package_id
@@ -130,6 +110,7 @@ namespace eval dotlrn_bm {
     } {
         one time user-specfic init
     } {
+        # noop
     }
 
     ad_proc -public remove_user {
@@ -137,6 +118,7 @@ namespace eval dotlrn_bm {
     } {
         one time user-specific removal
     } {
+        # noop
     }
 
     ad_proc -public add_user_to_community {
@@ -145,6 +127,7 @@ namespace eval dotlrn_bm {
     } {
         add a user to a community
     } {
+        # noop
     }
 
     ad_proc -public remove_user_from_community {
@@ -153,6 +136,7 @@ namespace eval dotlrn_bm {
     } {
         remove a user from a community
     } {
+        # noop
     }
 
     ad_proc -public add_portlet {
@@ -161,8 +145,7 @@ namespace eval dotlrn_bm {
     } {
         a helper proc to add the underlying portlet to the given portal.
     } {
-        ns_log notice "** Error in [get_pretty_name]: 'add_portlet' not implemented!"
-        ad_return_complaint 1 "Please notifiy the administrator of this error: ** Error in [get_pretty_name]: 'add_portlet' not implemented!"
+        # since this is admin portal-only, noop here
     }
 
     ad_proc -public remove_portlet {
@@ -171,8 +154,7 @@ namespace eval dotlrn_bm {
     } {
         a helper proc to remove the underlying portlet from the given portal.
     } {
-        ns_log notice "** Error in [get_pretty_name]: 'remove_portlet' not implemented!"
-        ad_return_complaint 1 "Please notifiy the administrator of this error: ** Error in [get_pretty_name]: 'remove_portlet' not implemented!"
+        # since this is admin portal-only, noop here
     }
 
     ad_proc -public clone {
@@ -181,9 +163,13 @@ namespace eval dotlrn_bm {
     } {
         clone this applet's content from the old community to the new one
     } {
-        ns_log notice "** Error in [get_pretty_name] 'clone' not implemented!"
-        ad_return_complaint 1 "Please notifiy the administrator of this error: ** Error in [get_pretty_name]: 'clone' not implemented!"
+        ns_log notice "Cloning [applet_key]"
+        add_applet_to_community $new_community_id
     }
+
+    #
+    # misc procs
+    #
 
     ad_proc -public get_package_id {
     } {
