@@ -186,7 +186,7 @@ namespace eval dotlrn_bm {
     } {
         returns the URL for the dotlrn-bm package
     } {
-        return [site_nodes::get_url_from_package_id -package_id [get_package_id]]
+        return [site_node::get_url_from_object_id -object_id [get_package_id]]
     }
 
 }
