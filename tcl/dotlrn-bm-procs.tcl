@@ -82,10 +82,6 @@ namespace eval dotlrn_bm {
                 -url [package_key] \
                 -directory_p "t"]
 
-            portal::mapping::new \
-                -object_id $package_id \
-                -node_id [site_nodes::get_node_id_from_package_id -package_id $package_id]
-
             dotlrn_applet::add_applet_to_dotlrn -applet_key [applet_key]
 
             dotlrn_applet::mount -package_key "dotlrn-bm" -url "bm" -pretty_name "Bulk Mail"
