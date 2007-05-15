@@ -50,7 +50,7 @@ namespace eval dotlrn_bm {
     } {
         returns the pretty name
     } {
-        return "Bulk Mail"
+        return "#bulk-mail.pretty_name#"
     }
 
     ad_proc -public add_applet {
