@@ -1,7 +1,8 @@
 <master>
-<property name="title">@title@</property>
-<property name="context_bar">@context_bar@</property>
+<property name="title">@title;noquote@</property>
+<property name="context"></property>
 
 <center>
-  @table@
+<listtemplate name="messages"></listtemplate>
 </center>
+

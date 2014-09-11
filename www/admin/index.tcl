@@ -3,40 +3,52 @@ ad_page_contract {
     @author yon (yon@openforce.net)
     @creation-date 2002-05-13
     @version $Id$
-
 } -query {
-    {orderby "send_date*,subject"}
+    {orderby "send_date"}
 } -properties {
     title:onevalue
-    context_bar:onevalue
+    context:onevalue
     table:onevalue
 }
 
 set package_id [ad_conn package_id]
 
-set title [bulk_mail::pretty_name]
-set context_bar {All}
+permission::require_permission -object_id $package_id -privilege admin
 
-set table_def {
-    {send_date {Send Date} {bulk_mail_messages.send_date $order} {<td width="10%">[lc_time_fmt $send_date "%q"]</td>}}
-    {from_addr From {bulk_mail_messages.from_addr $order} {<td width="15%">$from_addr</td>}}
-    {subject Subject {bulk_mail_messages.subject $order} {<td><a href="[lindex [site_node::get_url_from_object_id -object_id $package_id] 0]one?bulk_mail_id=$bulk_mail_id">$subject</a></td>}}
-    {sent_p {Sent?} {bulk_mail_messages.sent_p $order} {<td width="10%" align="center">[ad_decode $sent_p t Yes No]</td>}}
+set title [string totitle [bulk_mail::pretty_name]]
+
+template::list::create -name messages \
+    -multirow message_list \
+    -no_data "[_ bulk-mail.lt_No_bulk_mail_messages]" \
+    -html {width "95%"} \
+    -elements {
+	send_date {
+	    label "#bulk-mail.Send_Date#"
+	    display_col send_date_pretty
+	    orderby send_date
+	    html {style "width:10%"}
+	}
+	from_addr {
+	    label "#bulk-mail.From#"
+	    orderby from_addr
+	    html {style "width:15%"}
+	}
+	subject {
+	    label "#bulk-mail.Subject#"
+	    link_url_col message_url
+	    orderby subject
+	}
+	status_pretty {
+	    label "#bulk-mail.Status#"
+	    html {style "width:10%" align "center"}
+	    orderby status
+	}
+    }
+
+db_multirow -extend {send_date_pretty message_url status_pretty} message_list get_mail_messages {} {
+    set send_date_pretty [lc_time_fmt $send_date %q]
+    set message_url "[lindex [site_node::get_url_from_object_id -object_id $package_id] 0]one?bulk_mail_id=$bulk_mail_id"
+    set status_pretty [ad_decode $status sent [_ bulk-mail.Sent] pending [_ bulk-mail.Pending] [_ bulk-mail.Cancelled]]
 }
-
-set sql "
-    select bulk_mail_messages.*
-    from bulk_mail_messages
-    [ad_order_by_from_sort_spec $orderby $table_def]
-"
-
-set table [ad_table \
-    -Tmissing_text {<p><em>No bulk mail messages to display.</em></p>} \
-    -Torderby $orderby \
-    -Ttable_extra_html {width="95%"} \
-    select_bulk_mail_messages \
-    $sql \
-    $table_def \
-]
 
 ad_return_template
