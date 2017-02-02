@@ -4,7 +4,7 @@ ad_page_contract {
     @creation-date 2002-05-13
     @version $Id$
 } -query {
-    {orderby "send_date"}
+    {orderby:token "send_date"}
 } -properties {
     title:onevalue
     context:onevalue
