@@ -115,7 +115,7 @@ namespace eval dotlrn_bm {
     ad_proc -public add_user {
         user_id
     } {
-        one time user-specfic init
+        one time user-specific init
     } {
         # noop
     }
@@ -202,3 +202,9 @@ namespace eval dotlrn_bm {
     }
 
 }
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:
