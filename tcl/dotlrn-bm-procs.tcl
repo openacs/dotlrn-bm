@@ -112,7 +112,7 @@ namespace eval dotlrn_bm {
         bm_portlet::remove_self_from_page -portal_id $portal_id -package_id $package_id
     }
 
-    ad_proc -public add_user {
+    ad_proc -private add_user {
         user_id
     } {
         one time user-specific init
@@ -120,7 +120,7 @@ namespace eval dotlrn_bm {
         # noop
     }
 
-    ad_proc -public remove_user {
+    ad_proc -private remove_user {
         user_id
     } {
         one time user-specific removal
@@ -128,7 +128,7 @@ namespace eval dotlrn_bm {
         # noop
     }
 
-    ad_proc -public add_user_to_community {
+    ad_proc -private add_user_to_community {
         community_id
         user_id
     } {
@@ -137,7 +137,7 @@ namespace eval dotlrn_bm {
         # noop
     }
 
-    ad_proc -public remove_user_from_community {
+    ad_proc -private remove_user_from_community {
         community_id
         user_id
     } {
@@ -146,7 +146,7 @@ namespace eval dotlrn_bm {
         # noop
     }
 
-    ad_proc -public add_portlet {
+    ad_proc -private add_portlet {
         portal_id
         args
     } {
@@ -155,7 +155,7 @@ namespace eval dotlrn_bm {
         # since this is admin portal-only, noop here
     }
 
-    ad_proc -public remove_portlet {
+    ad_proc -private remove_portlet {
         portal_id
         args
     } {
@@ -173,7 +173,7 @@ namespace eval dotlrn_bm {
         add_applet_to_community $new_community_id
     }
 
-    ad_proc -public change_event_handler {
+    ad_proc -private change_event_handler {
         community_id
         event
         old_value
