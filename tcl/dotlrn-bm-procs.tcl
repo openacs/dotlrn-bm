@@ -180,8 +180,8 @@ namespace eval dotlrn_bm {
         new_value
     } {
         listens for the following events:
-    } { 
-    } 
+    } {
+    }
 
     ad_proc -public get_package_id {
     } {
