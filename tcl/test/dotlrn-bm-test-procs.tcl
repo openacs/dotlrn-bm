@@ -26,6 +26,17 @@ aa_register_case \
     aa_equals "Applet key" "[dotlrn_bm::applet_key]" "dotlrn_bm"
 }
 
+aa_register_case -procs {
+        dotlrn_bm::get_pretty_name
+    } -cats {
+        api
+        production_safe
+    } dotlrn_bm__names {
+        Test diverse name procs.
+} {
+    aa_equals "Pretty name" "[dotlrn_bm::get_pretty_name]" "#bulk-mail.pretty_name#"
+}
+
 # Local variables:
 #    mode: tcl
 #    tcl-indent-level: 4
