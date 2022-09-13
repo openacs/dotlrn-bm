@@ -28,34 +28,34 @@ namespace eval dotlrn_bm {
 
     ad_proc -public applet_key {
     } {
-        get the applet_key
+        @return the applet_key
     } {
         return dotlrn_bm
     }
 
     ad_proc -public my_package_key {
     } {
+        @return this package's key
     } {
         return "dotlrn-bm"
     }
 
     ad_proc -public package_key {
     } {
-        get the package_key this applet deals with
+        @return the package_key this applet deals with
     } {
         return "bulk-mail"
     }
 
     ad_proc -public get_pretty_name {
     } {
-        returns the pretty name
+        @return the pretty name
     } {
         return "#bulk-mail.pretty_name#"
     }
 
-    ad_proc -public add_applet {
-    } {
-        used for one-time init - must be repeatable!
+    ad_proc -public add_applet {} {
+        Used for one-time init - must be repeatable!
     } {
         if {![dotlrn::is_package_mounted -package_key [package_key]]} {
 
@@ -79,16 +79,16 @@ namespace eval dotlrn_bm {
         }
     }
 
-    ad_proc -public remove_applet {
+    ad_proc -public remove_applet {} {
+        Remove the applet from dotlrn.
     } {
-        remove the applet from dotlrn
-    } {
+        # noop
     }
 
     ad_proc -public add_applet_to_community {
         community_id
     } {
-        Add the bulk-mail applet to a dotlrn community
+        Add the bulk-mail applet to a dotlrn community.
     } {
         set portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
         set package_id [dotlrn::instantiate_and_mount $community_id [package_key]]
@@ -101,7 +101,7 @@ namespace eval dotlrn_bm {
     ad_proc -public remove_applet_from_community {
         community_id
     } {
-        remove the bulk-mail applet from a dotlrn community
+        Remove the bulk-mail applet from a dotlrn community.
     } {
         set portal_id [dotlrn_community::get_admin_portal_id -community_id $community_id]
         set package_id [dotlrn_community::get_applet_package_id \
@@ -115,7 +115,7 @@ namespace eval dotlrn_bm {
     ad_proc -private add_user {
         user_id
     } {
-        one time user-specific init
+        One time user-specific init.
     } {
         # noop
     }
@@ -123,7 +123,7 @@ namespace eval dotlrn_bm {
     ad_proc -private remove_user {
         user_id
     } {
-        one time user-specific removal
+        One time user-specific removal.
     } {
         # noop
     }
@@ -132,7 +132,7 @@ namespace eval dotlrn_bm {
         community_id
         user_id
     } {
-        add a user to a community
+        Add a user to a community.
     } {
         # noop
     }
@@ -141,7 +141,7 @@ namespace eval dotlrn_bm {
         community_id
         user_id
     } {
-        remove a user from a community
+        Remove a user from a community.
     } {
         # noop
     }
@@ -150,7 +150,7 @@ namespace eval dotlrn_bm {
         portal_id
         args
     } {
-        a helper proc to add the underlying portlet to the given portal.
+        Helper proc to add the underlying portlet to the given portal.
     } {
         # since this is admin portal-only, noop here
     }
@@ -159,7 +159,7 @@ namespace eval dotlrn_bm {
         portal_id
         args
     } {
-        a helper proc to remove the underlying portlet from the given portal.
+        Helper proc to remove the underlying portlet from the given portal.
     } {
         # since this is admin portal-only, noop here
     }
@@ -179,13 +179,11 @@ namespace eval dotlrn_bm {
         old_value
         new_value
     } {
-        listens for the following events:
-    } {
+        # noop
     }
 
-    ad_proc -public get_package_id {
-    } {
-        returns the package_id of the dotlrn-bm package
+    ad_proc -public get_package_id {} {
+        @return the package_id of the dotlrn-bm package
     } {
         return [db_string select_package_id {
             select min(package_id)
@@ -194,9 +192,8 @@ namespace eval dotlrn_bm {
         }]
     }
 
-    ad_proc -public get_url {
-    } {
-        returns the URL for the dotlrn-bm package
+    ad_proc -public get_url {} {
+        @return the URL for the dotlrn-bm package
     } {
         return [lindex [site_node::get_url_from_object_id -object_id [get_package_id]] 0]
     }
